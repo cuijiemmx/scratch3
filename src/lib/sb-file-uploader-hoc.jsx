@@ -150,11 +150,11 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 const filename = this.fileToUpload && this.fileToUpload.name;
                 this.props.vm.loadProject(this.fileReader.result)
                     .then(() => {
-                        this.props.onLoadingFinished(this.props.loadingState, true);
                         if (filename) {
                             const uploadedProjectTitle = this.getProjectTitleFromFilename(filename);
                             this.props.onSetProjectTitle(uploadedProjectTitle);
                         }
+                        this.props.onLoadingFinished(this.props.loadingState, true);
                     })
                     .catch(error => {
                         log.warn(error);

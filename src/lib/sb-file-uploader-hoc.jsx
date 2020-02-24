@@ -13,6 +13,7 @@ import {
     onLoadedProject,
     requestProjectUpload
 } from '../reducers/project-state';
+import {setProjectTitle} from '../reducers/project-title';
 import {
     openLoadingProject,
     closeLoadingProject
@@ -152,7 +153,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                         this.props.onLoadingFinished(this.props.loadingState, true);
                         if (filename) {
                             const uploadedProjectTitle = this.getProjectTitleFromFilename(filename);
-                            this.props.onUpdateProjectTitle(uploadedProjectTitle);
+                            this.props.onSetProjectTitle(uploadedProjectTitle);
                         }
                     })
                     .catch(error => {
@@ -188,6 +189,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 loadingState,
                 onLoadingFinished,
                 onLoadingStarted,
+                onSetProjectTitle,
                 projectChanged,
                 requestProjectUpload: requestProjectUploadProp,
                 userOwnsProject,
@@ -215,7 +217,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         loadingState: PropTypes.oneOf(LoadingStates),
         onLoadingFinished: PropTypes.func,
         onLoadingStarted: PropTypes.func,
-        onUpdateProjectTitle: PropTypes.func,
+        onSetProjectTitle: PropTypes.func,
         projectChanged: PropTypes.bool,
         requestProjectUpload: PropTypes.func,
         userOwnsProject: PropTypes.bool,
@@ -248,6 +250,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         },
         // show project loading screen
         onLoadingStarted: () => dispatch(openLoadingProject()),
+        onSetProjectTitle: title => dispatch(setProjectTitle(title)),
         // step 4: transition the project state so we're ready to handle the new
         // project data. When this is done, the project state transition will be
         // noticed by componentDidUpdate()

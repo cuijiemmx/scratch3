@@ -1,0 +1,8 @@
+Dockerfile
+package-lock.json
+.gitignore
+.git/
+.circleci/
+.github/
+node_modules/
+test/

@@ -148,20 +148,21 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             if (this.fileReader) {
                 this.props.onLoadingStarted();
                 const filename = this.fileToUpload && this.fileToUpload.name;
+                let loadingSuccess = false;
                 this.props.vm.loadProject(this.fileReader.result)
                     .then(() => {
                         if (filename) {
                             const uploadedProjectTitle = this.getProjectTitleFromFilename(filename);
                             this.props.onSetProjectTitle(uploadedProjectTitle);
                         }
-                        this.props.onLoadingFinished(this.props.loadingState, true);
+                        loadingSuccess = true;
                     })
                     .catch(error => {
                         log.warn(error);
                         this.props.intl.formatMessage(messages.loadError);
-                        this.props.onLoadingFinished(this.props.loadingState, false);
                     })
                     .then(() => {
+                        this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
                         // go back to step 7: whether project loading succeeded
                         // or failed, reset file objects
                         this.removeFileObjects();
